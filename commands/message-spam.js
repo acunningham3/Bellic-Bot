@@ -10,18 +10,17 @@ module.exports = {
       return;
     }
     else {
-      //Try to fetch user using ID from args
-      client.users.fetch(args[0]).then(dm => {
-        dm.send(args[1]).catch(() => {
-          return message.channel.send("User cannot be messaged...");  //Try to dm, if can't send message
-        })   
-      }).catch(() => {
-        return message.channel.send("User not found..."); //If can't fetch, send message
-      })
-    }
-
       //Spam loop
-    for (let i = 1; i <= 5; i++) {
+      for (let i = 1; i <= 10; i++) {
+        //Try to fetch user using ID from args
+        client.users.fetch(args[0]).then(dm => {
+          dm.send(args[1]).catch(() => {
+            return message.channel.send("User cannot be messaged...");  //Try to dm, if can't send message
+          })
+        }).catch(() => {
+          return message.channel.send("User not found..."); //If can't fetch, send message
+        })
+      }
     }
   }
 }
