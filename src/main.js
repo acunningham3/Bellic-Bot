@@ -1,7 +1,9 @@
 require('dotenv').config();             //Init dotenv for sensitive IDs
+require('./strategies/coinbase');       //Include coinbase strategy
 
 const discord = require('discord.js');  //Include discord libs
 const fs = require('fs');               //Include fs libs
+const passport = require('passport');   //Include passport libs
 
 //#region -------------------EXPRESS WEBSERVER SETUP--------------------
 
@@ -10,11 +12,11 @@ const app = express();                  //Define instance of express called app
 const PORT = process.env.PORT;          //Define PORT number from .env
 const routes = require('./routes');     //Define location of routes
 
-app.use('/api', routes)                //Prefix routes with /api in URL
+app.use('/api', routes);                //Prefix routes with /api in URL
+app.use(passport.initialize());
+app.use(passport.session());
 
 //#endregion -----------------------------------------------------------
-
-
 
 const botSecret = process.env.BOT_TOKEN;    //Set secret token to mySecret
 const prefix = '$';                         //Set bot command prefix
