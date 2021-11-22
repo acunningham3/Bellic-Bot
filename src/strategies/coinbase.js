@@ -33,7 +33,7 @@ passport.use(
     }, async (accessToken, refreshToken, profile, done) => {
         //Grab id from returned coinbase profile
         const{id, displayName} = profile;                                   
-        console.log(accessToken, id, displayName);
+        //console.log(accessToken, id, displayName);
 
         //Try to find a new user from database using the id
         //Else create a new user in database from id and accesstoken
@@ -47,6 +47,7 @@ passport.use(
                 displayName: displayName,
                 coinbaseId: id,
                 accessToken: accessToken,
+                refreshToken: refreshToken,
             });
             return done(null, newUser);
             }
