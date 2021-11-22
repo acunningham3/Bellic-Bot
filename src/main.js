@@ -1,20 +1,45 @@
 require('dotenv').config();             //Init dotenv for sensitive IDs
-require('./strategies/coinbase');       //Include coinbase strategy
+require('./strategies/coinbase');       //Include coinbase auth strategy
 
-const discord = require('discord.js');  //Include discord libs
-const fs = require('fs');               //Include fs libs
-const passport = require('passport');   //Include passport libs
+//#region --------------------------REQUIRES----------------------------
+
+const discord   = require('discord.js');        //Include discord libs
+const fs        = require('fs');                //Include fs libs
+const passport  = require('passport');          //Include passport libs
+const mongoose  = require('mongoose');          //Include mongoose libs
+const express   = require('express');           //Include express libs for webserving
+const routes    = require('./routes');          //Define location of routes
+const session   = require('express-session');   //Include session cookie libs
+const Store     = require('connect-mongo');     //Libs to store session data
+
+//#endregion -----------------------------------------------------------
+
+//Connect to predefined database using MongoDB cluster service
+//A discord bot hosting service would have their own DB to hook onto
+mongoose.connect(process.env.MONGODB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
 
 //#region -------------------EXPRESS WEBSERVER SETUP--------------------
 
-const express = require('express');     //Include express libs for webserving
 const app = express();                  //Define instance of express called app
 const PORT = process.env.PORT;          //Define PORT number from .env
-const routes = require('./routes');     //Define location of routes
+
+//Define session cookie details
+app.use(session( {
+    secret: 'secret',
+    cookie: {
+        maxAge: 60000 * 60 * 24
+    },
+    resave: false,
+    saveUninitialized: false,
+    store: Store.create({mongoUrl: process.env.MONGODB_URL})
+}));
+app.use(passport.initialize());         //Init passport for use
+app.use(passport.session());            //Init passport session
 
 app.use('/api', routes);                //Prefix routes with /api in URL
-app.use(passport.initialize());
-app.use(passport.session());
 
 //#endregion -----------------------------------------------------------
 
