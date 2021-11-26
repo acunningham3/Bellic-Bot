@@ -1,10 +1,10 @@
 const router = require('express').Router(); //Init router from express
 const passport = require('passport');
 
-//Send OK (200) to user when an auth link is requested
+//Send back to Discord when an auth link is requested
 router.get('/coinbase', passport.authenticate('coinbase'));
 router.get('/coinbase/redirect', passport.authenticate('coinbase'), (req, res) => {
-    res.sendStatus(200);
+    res.redirect('https://discord.gg/MyzyC4HJhy');
 });
 
 router.get('/', (req, res) => {

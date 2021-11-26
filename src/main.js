@@ -83,13 +83,17 @@ client.on('messageCreate', message => {
 
     //#region ------------------------BOT COMMANDS--------------------------
 
-        //$PING
-    if (command === 'ping') {
-        client.commands.get('ping').execute(message);
-    }
-        //$SPAM
-    else if (command === 'spam') {
-        client.commands.get('messageSpam').execute(client, message, args);
+    switch(command) {
+        case 'ping':    //$PING
+            client.commands.get('ping').execute(message);
+            break;
+
+        case 'spam':    //$SPAM
+            client.commands.get('messageSpam').execute(client, message, args);
+            break;
+
+        case 'coin':
+            client.commands.get('coinSetup').execute(message, discord, args);
     }
 
     //#endregion -----------------------------------------------------------
