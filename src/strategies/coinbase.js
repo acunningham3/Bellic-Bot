@@ -30,10 +30,9 @@ passport.use(
                 'wallet:buys:create',
                 'wallet:sells:create',
                 ],
-    }, async (accessToken, refreshToken, profile, done) => {
-        //Grab id from returned coinbase profile
-        const{id, displayName} = profile;                                   
+    }, async (accessToken, refreshToken, profile, done) => {                              
         //console.log(accessToken, id, displayName);
+        const {id} = profile;
 
         //Try to find a new user from database using the id
         //Else create a new user in database from id and accesstoken
@@ -44,8 +43,8 @@ passport.use(
                 return done(null, findUser);
             } else {
                 const newUser = await User.create( {
-                displayName: displayName,
-                coinbaseId: id,
+                displayName: profile.displayName,
+                coinbaseId: profile.id,
                 accessToken: accessToken,
                 refreshToken: refreshToken,
             });
