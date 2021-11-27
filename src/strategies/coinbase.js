@@ -25,15 +25,17 @@ passport.use(
         clientID: process.env.COINBASE_CLIENT_ID,
         clientSecret: process.env.COINBASE_CLIENT_SECRET,
         callbackURL: process.env.COINBASE_CALLBACK_URL,
+        passReqToCallback: true,    //Used to pass req to the function
         scope: ['wallet:accounts:read', 
                 'wallet:addresses:read', 
                 'wallet:buys:create',
                 'wallet:sells:create',
                 ],
-    }, async (accessToken, refreshToken, profile, done) => {                              
+    }, async (req, accessToken, refreshToken, profile, done) => {                              
         //console.log(accessToken, id, displayName);
         const {id} = profile;
-
+        console.log(req.query.state);
+        
         //Try to find a new user from database using the id
         //Else create a new user in database from id and accesstoken
         try {
@@ -43,6 +45,7 @@ passport.use(
                 return done(null, findUser);
             } else {
                 const newUser = await User.create( {
+                discordId: req.query.state,
                 displayName: profile.displayName,
                 coinbaseId: profile.id,
                 accessToken: accessToken,
