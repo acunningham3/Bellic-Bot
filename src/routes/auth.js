@@ -1,10 +1,15 @@
 const router = require('express').Router(); //Init router from express
 const passport = require('passport');
+const User = require('../database/schemas/user');
 
 //Send back to Discord when an auth link is requested
-router.get('/coinbase', passport.authenticate('coinbase'));
+//Uses params to communicate discord name eq '/api/auth/coinbase?id=267163979061657600'
+router.get('/coinbase', (req, res) => {
+    console.log(JSON.stringify(req.query.id));
+    passport.authenticate('coinbase', {state: JSON.stringify(req.query.id)})(req, res)
+});
 router.get('/coinbase/redirect', passport.authenticate('coinbase'), (req, res) => {
-    res.redirect('https://discord.gg/MyzyC4HJhy');
+    res.sendStatus(200);
 });
 
 router.get('/', (req, res) => {
