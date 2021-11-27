@@ -46,11 +46,17 @@ app.use('/api', routes);                //Prefix routes with /api in URL
 const botSecret = process.env.BOT_TOKEN;    //Set secret token to mySecret
 const prefix = '$';                         //Set bot command prefix
 
-const client = new discord.Client ({     //Create bot instance and define intents
+const client = new discord.Client ({     //Create bot instance and define intents and partials
     intents: [
         discord.Intents.FLAGS.GUILDS,
         discord.Intents.FLAGS.GUILD_MESSAGES,
-        discord.Intents.FLAGS.DIRECT_MESSAGES
+        discord.Intents.FLAGS.DIRECT_MESSAGES,
+        discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS],
+
+    partials: [
+        'MESSAGE', 
+        'CHANNEL', 
+        'REACTION'
 ]});
 
 client.commands = new discord.Collection(); //Start new commands collection
@@ -92,8 +98,8 @@ client.on('messageCreate', message => {
             client.commands.get('messageSpam').execute(client, message, args);
             break;
 
-        case 'coin':
-            client.commands.get('coinSetup').execute(message, discord, args);
+        case 'coin':    //$COIN
+            client.commands.get('coinSetup').execute(client, message, discord, args);
     }
 
     //#endregion -----------------------------------------------------------
