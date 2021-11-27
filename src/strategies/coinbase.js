@@ -45,7 +45,7 @@ passport.use(
                 return done(null, findUser);
             } else {
                 const newUser = await User.create( {
-                discordId: req.query.state,
+                discordId: JSON.parse(req.query.state),
                 displayName: profile.displayName,
                 coinbaseId: profile.id,
                 accessToken: accessToken,
