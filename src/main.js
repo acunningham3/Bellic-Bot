@@ -60,7 +60,7 @@ const client = new discord.Client ({     //Create bot instance and define intent
 ]});
 
 client.commands = new discord.Collection(); //Start new commands collection
-const commandFiles = fs.readdirSync('./src/commands/').filter(file => file.endsWith('.js'))  //Look into the commands folder and select correct file type
+const commandFiles = fs.readdirSync('./src/commands/').filter(file => file.endsWith('.js'));  //Look into the commands folder and select correct file type
 for (const file of commandFiles) {
     const command = require(`../src/commands/${file}`);
 
@@ -91,15 +91,20 @@ client.on('messageCreate', message => {
 
     switch(command) {
         case 'ping':    //$PING
-            client.commands.get('ping').execute(message);
+            client.commands.get('Ping').execute(message);
             break;
 
         case 'spam':    //$SPAM
-            client.commands.get('messageSpam').execute(client, message, args);
+            client.commands.get('Message Spam').execute(client, message, args);
             break;
 
         case 'coin':    //$COIN
-            client.commands.get('coinSetup').execute(client, message, discord, args);
+            client.commands.get('Coinbase Setup').execute(client, message, discord, args);
+            break;
+
+        case 'help':    //$HELP
+            client.commands.get('Help').execute(client, discord, message, args);
+            break;
     }
 
     //#endregion -----------------------------------------------------------

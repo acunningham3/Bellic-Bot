@@ -1,7 +1,10 @@
 //Setup coinbase reaction message embed
 module.exports = {
-    name: 'coinSetup',
-    description: 'setup coinbase verification in specified channel',
+    name: 'Coinbase Setup',
+    prefix: '$coin',
+    options: ' ',
+    roles: 'Devs',
+    description: '$coin, setup coinbase verification in current channel',
     //Code to execute
     async execute(client, message, discord, args) {
 

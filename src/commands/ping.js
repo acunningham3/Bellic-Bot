@@ -1,9 +1,12 @@
 //Simple ping command that returns Pong in the channel
 module.exports = {
-    name: 'ping',
-    description: 'simple ping command',
+    name: 'Ping',
+    prefix: '$ping',
+    options: ' ',
+    roles: 'Everyone',
+    description: '$ping, test command to check if bot is working',
     //Code to execute
     execute(message) {
-        message.channel.send('Pong!');
+        message.reply('Pong!');
     }
 }
